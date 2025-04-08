@@ -1,21 +1,22 @@
 import os
-from telegram.ext import ApplicationBuilder, CommandHandler
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# Load your bot token from environment variable
+# Load your bot token securely from environment
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
-# Basic /start command
-async def start(update, context):
+# Responds to /start command
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Yo! SharpPicks.AI bot is now live and working!")
 
 def main():
-    # Build the bot app
+    # Build the Telegram bot application
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    # Add command handler
+    # Add the /start command
     app.add_handler(CommandHandler("start", start))
 
-    # Run it
+    # Run the bot
     app.run_polling()
 
 if __name__ == "__main__":
