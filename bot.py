@@ -1,27 +1,21 @@
-import logging
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+import os
+from telegram.ext import ApplicationBuilder, CommandHandler
 
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Replace this before deploying
+# Load your bot token from environment variable
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Welcome to SharpPicks.AI — type /buildai to start building your own system!")
-
-async def buildai(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Let’s build your custom AI betting assistant! Coming soon to your account...")
+# Basic /start command
+async def start(update, context):
+    await update.message.reply_text("Yo! SharpPicks.AI bot is now live and working!")
 
 def main():
-    app = ApplicationBuilder().token(TOKEN).build()
+    # Build the bot app
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
+    # Add command handler
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("buildai", buildai))
 
-    print("Bot is running...")
+    # Run it
     app.run_polling()
 
 if __name__ == "__main__":
